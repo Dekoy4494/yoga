@@ -44,9 +44,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     //TIMER
-//устанавливаем необходимую дату окончания
-    let deadline = '2020-02-22';
-// вычитаем от 1 янв 1970г  сколько времени прошло от настоящего времени, потом переводим в нужные единицы(часы, минуты, секунды)
+    //устанавливаем необходимую дату окончания
+    let deadline = '2030-02-22';
+    // вычитаем от 1 янв 1970г  сколько времени прошло от настоящего времени, потом переводим в нужные единицы(часы, минуты, секунды)
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date()),
             seconds = Math.floor((t / 1000) % 60),
@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', function () {
             hours = Math.floor((t / (1000 * 60 * 60)));
 
         // days = Math.floor((t/1000/60/60) % 24) if u need days
-// возвращаем полученные данные в форме объекта
+        // возвращаем полученные данные в форме объекта
         return {
             'total': t,
             'hours': hours,
@@ -62,9 +62,9 @@ window.addEventListener('DOMContentLoaded', function () {
             'seconds': seconds
         };
     }
-//получаем из верстки поля в которые будем выводить данные и подставляем данные с объекта,
-//записываем интервал 1 секунду для динамического изменения времени на таймере,
-//если значение даты уже прошло вставляем в поля нули
+    //получаем из верстки поля в которые будем выводить данные и подставляем данные с объекта,
+    //записываем интервал 1 секунду для динамического изменения времени на таймере,
+    //если значение даты уже прошло вставляем в поля нули
     function setClock(id, endtime) {
         let timer = document.getElementById(id),
             hours = timer.querySelector('.hours'),
@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', function () {
         function updateClock() {
             let t = getTimeRemaining(endtime);
             hours.textContent = t.hours;
-            if (hours.textContent.length < 2) {   //условие для того что бы вывести нули перед числами, по формату
+            if (hours.textContent.length < 2) { //условие для того что бы вывести нули перед числами, по формату
                 hours.textContent = '0' + t.hours;
             }
             minutes.textContent = t.minutes;
@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', function () {
             if (seconds.textContent.length < 2) {
                 seconds.textContent = '0' + t.seconds;
             }
-            
+
 
             if (t.total <= 0) {
                 hours.textContent = '00';
@@ -99,4 +99,35 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     setClock('timer', deadline);
+
+    //modal
+
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close'),
+        tabBtn = document.querySelectorAll('.description-btn');
+
+    
+        for (let i = 0; i < tabBtn.length; i++) {
+            tabBtn[i].addEventListener('click', function () {
+                overlay.style.display = 'block';
+                this.classList.add('more-splash');
+                document.body.style.overflow = 'hidden';
+
+            });
+        }
+    
+    
+
+    more.addEventListener('click', function () {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    });
+
+    close.addEventListener('click', function () {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    });
 });
